@@ -1,5 +1,5 @@
 import { createServerClient } from '@supabase/ssr'
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 export async function proxy(request: NextRequest) {
   return await updateSession(request)
@@ -45,6 +45,19 @@ export async function updateSession(request: NextRequest) {
       },
     }
   )
+
+  const { data: { user }} = await supabase.auth.getUser()
+
+  const publicRoutes = ["/", "/sign-in", , "/sign-up", "/auth/callback"]
+  const isPublicRoute = publicRoutes.some(route => request.nextUrl.pathname === route || request.nextUrl.pathname.startsWith("/auth/"))
+
+  if (!user && !isPublicRoute) {
+    return NextResponse.redirect(new URL("/sign-in", request.url))
+  }
+
+  if (user && (request.nextUrl.pathname === "/sign-in" || request.nextUrl.pathname === "/signup")) {
+    return NextResponse.redirect(new URL("/notes", request.url))
+  }
 
 
   // IMPORTANT: Avoid writing any logic between createServerClient and

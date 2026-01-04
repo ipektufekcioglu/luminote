@@ -6,12 +6,14 @@ import NoteCard from "@/components/notes-list/NoteCard"
 import type {Note, NoteTagRow} from "@/app/types/index"
 import { createClient } from "@/auth/server"
 import NotesListClient from "@/components/notes-list/NotesListClient"
+import SearchProvider from "@/contexts/SearchContext"
+import TagFilterProvider from "@/contexts/TagFilterContext"
+import { ReactNode } from "react"
 
 
-export default async function NotesLayout({children}: {children: React.ReactNode}) {
-
+export default async function NotesLayout({children}: {children: ReactNode}) {
     const supabase = await createClient()
-
+    
     const { data: notes, error } = await supabase
         .from("notes")
         .select("*")
@@ -48,16 +50,20 @@ export default async function NotesLayout({children}: {children: React.ReactNode
     return (
         <div className="static w-screen h-screen overflow-hidden">
             <div className="flex">
-                <SideBar />
-                <div className="flex flex-col flex-1">
-                    <AllNotesHeader />
-                    <div className="flex flex-1">
-                        <NotesList>
-                            <NotesListClient initialNotes={notes} initialTagsMap={initialTagsMap}/>
-                        </NotesList>
-                        {children}
-                    </div>
-                </div>
+                <TagFilterProvider>
+                    <SideBar />
+                    <SearchProvider>
+                        <div className="flex flex-col flex-1">
+                            <AllNotesHeader />
+                            <div className="flex flex-1">
+                                <NotesList>
+                                    <NotesListClient initialNotes={notes} initialTagsMap={initialTagsMap}/>
+                                </NotesList>
+                                {children}
+                            </div>
+                        </div>
+                    </SearchProvider>
+                </TagFilterProvider>
             </div>
             <BottomNav />
         </div>

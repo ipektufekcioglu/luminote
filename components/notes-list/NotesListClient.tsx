@@ -3,15 +3,19 @@
 import createSupabaseBrowserClient from "@/lib/supabaseBrowser"
 import NoteCard from "./NoteCard"
 import type { Note, NotesListClientProps } from "@/app/types"
+import { useSearch } from "@/contexts/SearchContext"
 import { useState, useEffect } from "react"
+import { useFilterTag } from "@/contexts/TagFilterContext"
 
 export default function NotesListClient({initialNotes, initialTagsMap}: NotesListClientProps) {
     const [notes, setNotes] = useState(initialNotes)
     const [tagsMap, setTagsMap] = useState(initialTagsMap)
+    const {searchText} = useSearch()
     const supabase = createSupabaseBrowserClient()
+    const { filterTag } = useFilterTag()
 
     useEffect(() => {
-        const channel = supabase
+        const notesChannel = supabase
             .channel("notes-changes")
             .on("postgres_changes",
                 {event: "*", schema: "public", table: "notes"},
@@ -45,6 +49,15 @@ export default function NotesListClient({initialNotes, initialTagsMap}: NotesLis
                             const tagNames = tagData.map((row: any) => row.tags?.name).filter(Boolean)
                             setTagsMap(prev => ({...prev, [updatedNote.id]: tagNames}))
                         }
+                    } else if (payload.eventType === "DELETE") {
+                        const deletedNote = payload.old as Note
+                        setNotes(prev => prev.filter(note => note.id !== deletedNote.id))
+
+                        setTagsMap(prev => {
+                            const newMap = {...prev}
+                            delete newMap[deletedNote.id]
+                            return newMap
+                        })
                     }
                 }
             ).subscribe()
@@ -74,15 +87,38 @@ export default function NotesListClient({initialNotes, initialTagsMap}: NotesLis
             .subscribe()
 
         return () => {
-            supabase.removeChannel(channel)
+            supabase.removeChannel(notesChannel)
+            supabase.removeChannel(noteTagsChannel)
         }
 
 
     }, [supabase])
 
+    const filteredNotes = notes.filter(note => {
+
+        if (searchText) {
+            const titleMatch = note.title.toLowerCase().includes(searchText.toLowerCase())
+            const contentMatch = note.content.toLowerCase().includes(searchText.toLowerCase()) 
+            const tagMatch = tagsMap[note.id]?.some(tag => tag.includes(searchText.toLowerCase()))
+            return  titleMatch || contentMatch || tagMatch
+        } 
+
+        if (filterTag) {
+            if (filterTag === "Show All") {
+                return true
+            }
+            return tagsMap[note.id]?.some(tag => tag === filterTag)
+        }
+
+        return true
+    })
+    
+    
+    console.log(filterTag)
+
     return (
         <>
-            {notes.length > 0 ? notes.map(note => (
+            {notes.length > 0 ? filteredNotes.map(note => (
                 <NoteCard key={note.id} note={note} tagNames={tagsMap[note.id] || []} />
             )) : <div><h1 className="border-2 bg-[#fff0f0]/25 border-dark-pink rounded-lg px-2 py-1 mt-4">You don’t have any notes yet. Start a new note to capture your thoughts and ideas.</h1></div>}
         </>

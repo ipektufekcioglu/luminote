@@ -1,5 +1,6 @@
 "use client"
 import React, { useMemo, useState } from "react"
+import { useRouter } from "next/navigation"
 
 import Image from "next/image"
 import BackArrow from "@/public/back-arrow.png"
@@ -13,6 +14,7 @@ import  createSupabaseBrowserClient from "@/lib/supabaseBrowser"
  
 export default function NoteEditor({initialNote, mode}: NoteEditorProps) {
     const supabase = useMemo(() => createSupabaseBrowserClient(), [])
+    const router = useRouter()
 
     const [title, setTitle] = useState(initialNote?.title || "")
     const [content, setContent] = useState(initialNote?.content || "")
@@ -155,6 +157,16 @@ export default function NoteEditor({initialNote, mode}: NoteEditorProps) {
         }
     }
 
+    const handleDelete = async () => {
+        const {data, error} = await supabase
+        .from("notes")
+        .delete()
+        .eq("id", initialNote?.id)
+
+        router.push("/notes")
+
+    }
+
     return (
         <div className="py-4 px-4 flex-1 h-screen">
             <form onSubmit={handleSave} className="static backdrop-blur-sm">
@@ -165,11 +177,18 @@ export default function NoteEditor({initialNote, mode}: NoteEditorProps) {
                         <button className="text-sm items-center text-fuchsia-600 md:text-lg" type="submit" disabled={saving}>Save Note</button>
                     </div>
                 </div>
-                <textarea placeholder="Enter a title..." 
-                          value={title}
-                          onChange={(e) => setTitle(e.target.value)}
-                          className="text-neutral-950 overflow-hidden font-bold text-3xl font-albert pt-2 px-2 h-12 md:text-4xl"
-                />
+                <div className="flex justify-between mb-4 items-center">
+                    <textarea placeholder="Enter a title..." 
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            className="text-neutral-950 overflow-hidden font-bold text-3xl font-albert pt-2 px-2 h-12 md:text-4xl"
+                    />
+                    {mode === "edit" && 
+                    <div className="flex flex-col gap-2">
+                        <button className="border rounded-lg px-2 cursor-pointer">Archive Note</button>
+                        <button className="border rounded-lg px-2 cursor-pointer" onClick={handleDelete}>Delete Note</button>
+                    </div>}
+                </div>
                 <div className="grid grid-cols-[2fr_3fr] gap-y-3 items-start border-b border-neutral-200 py-2">
                     <div className="flex gap-2 flex-wrap">
                         <label className="flex gap-2 text-sm items-center px-2 md:text-lg" htmlFor="tag"><Image src={TagIcon} alt="tag icon"/>Tags</label>
@@ -201,12 +220,3 @@ export default function NoteEditor({initialNote, mode}: NoteEditorProps) {
     )
 }
 
-/*
-                    <textarea placeholder="Add tags separated by commas (e.g. Work, Planning)" 
-                              value={tags}
-                              onChange={(e) => setTags(e.target.value)}
-                              name="tag" 
-                              id="tag" 
-                              className="w-full text-sm whitespace-normal leading-none md:text-lg"
-                    />
-*/

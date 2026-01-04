@@ -4,10 +4,12 @@ import createSupabaseBrowserClient from "@/lib/supabaseBrowser"
 import { useEffect, useState } from "react"
 import type { SideBarClientProps, Tag } from "@/app/types/index"
 import { FaTag } from "react-icons/fa6"
+import { useFilterTag } from "@/contexts/TagFilterContext"
 
 export default function SideBarClient({initialTagNames}: SideBarClientProps) {
     const [tags, setTags] = useState(initialTagNames)
     const supabase = createSupabaseBrowserClient()
+    const {setFilterTag} = useFilterTag()
 
 
     useEffect(() => {
@@ -29,9 +31,12 @@ export default function SideBarClient({initialTagNames}: SideBarClientProps) {
         }
     }, [supabase])
 
+    const handleClick = (tagName: string) =>  setFilterTag(tagName)
+
     return (
         <div className="flex flex-col gap-2">
-            {tags.map((t) => <div className="flex gap-2 items-center"><FaTag /><p>{t.name}</p></div>)}
+            <div onClick={() => handleClick("Show All")} key={"showAll"} className="flex items-center cursor-pointer"><p>Show All</p></div>
+            {tags.map((t) => <div onClick={() => handleClick(t.name)} key={t.name} className="flex gap-2 items-center cursor-pointer"><FaTag /><p>{t.name}</p></div>)}
         </div>
     )
 

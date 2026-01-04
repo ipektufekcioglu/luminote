@@ -58,9 +58,19 @@ export type NoteTagRow = {
 
 export type NotesListClientProps = {
     initialNotes: Note[],
-    initialTagsMap: Record<string, string[]> 
+    initialTagsMap: Record<string, string[]>
 }
 
 export type SideBarClientProps = {
     initialTagNames: Tag[]
+}
+
+export type SearchContextType = {
+    searchText: string,
+    setSearchText: (text:string) => void
+}
+
+export type TagFilterContextType = {
+    filterTag: string,
+    setFilterTag: (text:string) => void
 }
