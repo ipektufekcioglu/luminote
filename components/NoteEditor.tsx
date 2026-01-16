@@ -18,6 +18,7 @@ import AddTag from "./AddTag";
 import SelectedTag from "./SelectedTag";
 import type { NoteEditorProps, Tag } from "@/app/types/index";
 import createSupabaseBrowserClient from "@/lib/supabaseBrowser";
+import { create } from "domain";
 
 export default function NoteEditor({ initialNote, mode }: NoteEditorProps) {
   const supabase = useMemo(() => createSupabaseBrowserClient(), []);
@@ -232,7 +233,13 @@ export default function NoteEditor({ initialNote, mode }: NoteEditorProps) {
               Tags
             </label>
           </div>
-          <div className="grid [grid-template-columns:3fr_1fr_auto] gap-2 ">
+          <div
+            className={`grid gap-2 ${
+              mode === "create"
+                ? "[grid-template-columns:1fr_auto]"
+                : "[grid-template-columns:3fr_1fr_auto]"
+            }`}
+          >
             <div>
               <div className="flex items-center justify-between">
                 <div className="flex flex-wrap items-center gap-2 max-w-[300px] lg:max-w-[450px]">
@@ -290,7 +297,7 @@ export default function NoteEditor({ initialNote, mode }: NoteEditorProps) {
         </div>
         <div className="hidden gap-4 lg:flex">
           <button
-            className="text-sm items-center bg-fuchsia-600 text-white rounded-lg px-2 md:text-lg cursor-pointer"
+            className="text-sm items-center bg-[#CE3E97] text-white rounded-lg px-2 md:text-lg cursor-pointer"
             type="submit"
             disabled={saving}
           >
