@@ -117,10 +117,10 @@ export default function NotesListClient({initialNotes, initialTagsMap}: NotesLis
     console.log(filterTag)
 
     return (
-        <>
+        <div className="mt-4">
             {notes.length > 0 ? filteredNotes.map(note => (
                 <NoteCard key={note.id} note={note} tagNames={tagsMap[note.id] || []} />
             )) : <div><h1 className="border-2 bg-[#fff0f0]/25 border-dark-pink rounded-lg px-2 py-1 mt-4">You don’t have any notes yet. Start a new note to capture your thoughts and ideas.</h1></div>}
-        </>
+        </div>
     )
 }

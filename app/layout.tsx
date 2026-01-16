@@ -3,6 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import { Toaster } from "@/components/ui/sonner"
+import MobileHeader from "@/components/MobileHeader";
 
 export const metadata: Metadata = {
   title: "LumiNote"
@@ -16,8 +17,7 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin=""/>
         <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat+Alternates:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Pacifico&display=swap" rel="stylesheet"></link>
       </head>
-      <body
-      >
+      <body>
         <ThemeProvider
             attribute="class"
             defaultTheme="light"
@@ -25,7 +25,7 @@ export default function RootLayout({children}: Readonly<{children: React.ReactNo
             disableTransitionOnChange
           >
           <div>
-            
+            <MobileHeader />
             <main className="min-h-screen bg-white bg-opacity-30">{children}</main>
             <Toaster />
           </div>

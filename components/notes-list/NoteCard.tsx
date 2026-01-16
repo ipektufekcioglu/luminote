@@ -1,19 +1,25 @@
-import type { NoteCardProps } from "@/app/types"
-import { format } from "date-fns"
-import Link from "next/link"
+import type { NoteCardProps } from "@/app/types";
+import { format } from "date-fns";
+import Link from "next/link";
 
-export default function NoteCard({note, tagNames}: NoteCardProps) {
-    const formattedDate = format(new Date(note.updated_at), "dd MMM yyyy")
-    return (
-        <Link href={`/notes/${note.id}`}>
-            <div className="flex flex-col gap-1 border-b border-dark-pink pb-2 my-2">
-                <h1>{note.title}</h1>
-                <div className="flex flex-warp gap-2">{tagNames.map((tagName:string) => 
-                    <span className="h-7 inline-flex items-center gap-2 border text-xs rounded-md px-2 py bg-gray-100 flex items-center gap-2" key={tagName}>{tagName}</span>
-                )}
-                </div>
-                <p>{formattedDate}</p>
-            </div>
-        </Link>
-    )
+export default function NoteCard({ note, tagNames }: NoteCardProps) {
+  const formattedDate = format(new Date(note.updated_at), "dd MMM yyyy");
+  return (
+    <Link href={`/notes/${note.id}`}>
+      <div className="flex flex-col gap-3 border-b border-dark-pink pb-2 my-2">
+        <h1 className="font-medium text-neutral-950 text-xl">{note.title}</h1>
+        <div className="flex flex-wrap gap-2">
+          {tagNames.map((tagName: string) => (
+            <span
+              className="h-7 inline-flex items-center gap-2 border text-xs rounded-md px-2 py bg-gray-100 flex items-center gap-2"
+              key={tagName}
+            >
+              {tagName}
+            </span>
+          ))}
+        </div>
+        <p className="font-light text-neutral-700">{formattedDate}</p>
+      </div>
+    </Link>
+  );
 }
