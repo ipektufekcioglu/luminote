@@ -79,7 +79,10 @@ export default function Home() {
         <p className="font-albert text-sm text-center font-light py-4 border-t border-neutral-200">
           Or log in with:
         </p>
-        <button className="text-neutral-950 font-inter py-2 text-sm rounded-lg border border-neutral-200 flex justify-center items-center gap-2 font-medium cursor-pointer">
+        <button
+          onClick={handleGoogleSignup}
+          className="text-neutral-950 font-inter py-2 text-sm rounded-lg border border-neutral-200 flex justify-center items-center gap-2 font-medium cursor-pointer"
+        >
           <Image src={GoogleImg} alt="google logo" />
           Google
         </button>

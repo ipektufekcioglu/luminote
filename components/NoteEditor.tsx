@@ -8,7 +8,7 @@ import BackArrow from "@/public/back-arrow.png";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoArchive } from "react-icons/io5";
 import { FaRegClock } from "react-icons/fa";
-
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { FaTag } from "react-icons/fa6";
 import TagIcon from "@/public/tag-icon.png";
@@ -31,7 +31,7 @@ export default function NoteEditor({ initialNote, mode }: NoteEditorProps) {
   const [error, setError] = useState("");
   const [newTag, setNewTag] = useState("");
   const [selectedTags, setSelectedTags] = useState<Tag[]>(
-    initialNote?.tags ?? []
+    initialNote?.tags ?? [],
   );
 
   const handleSave = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -180,7 +180,7 @@ export default function NoteEditor({ initialNote, mode }: NoteEditorProps) {
   };
 
   return (
-    <div className="py-4 px-4 flex-1 h-screen">
+    <div className="py-4 px-4 flex-1 overflow-hidden flex flex-col max-h-screen">
       <form onSubmit={handleSave} className="static backdrop-blur-sm">
         <div className="flex justify-between items-center border-b border-neutral-200 pb-4 px-2 text-neutral-600 lg:hidden">
           <Link href="/notes">
@@ -286,7 +286,7 @@ export default function NoteEditor({ initialNote, mode }: NoteEditorProps) {
           </div>
         </div>
 
-        <div className="px-2 py-2">
+        <div className="px-2 py-2 flex-1 flex flex-col min-h-0">
           <textarea
             placeholder="Start typing your note here…"
             value={content}
@@ -297,13 +297,14 @@ export default function NoteEditor({ initialNote, mode }: NoteEditorProps) {
         </div>
         <div className="hidden gap-4 lg:flex">
           <button
-            className="text-sm items-center bg-[#CE3E97] text-white rounded-lg px-2 md:text-lg cursor-pointer"
+            className="flex items-center justify-center gap-2 text-sm items-center bg-[#CE3E97] text-white rounded-lg px-2 py-1 md:text-lg cursor-pointer"
             type="submit"
             disabled={saving}
           >
+            {saving ? <AiOutlineLoading3Quarters className="spinner" /> : <></>}
             {mode === "create" ? "Save Note" : "Update Note"}
           </button>
-          <button className="text-sm items-center md:text-lg bg-red-50/60 rounded-lg px-2 cursor-pointer">
+          <button className="text-sm items-center md:text-lg bg-red-100/80 rounded-lg px-2 py-1 cursor-pointer">
             Cancel
           </button>
         </div>

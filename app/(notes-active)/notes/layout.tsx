@@ -49,14 +49,14 @@ export default async function NotesLayout({
   }
 
   return (
-    <div className="static">
-      <div className="flex">
+    <div className="h-screen overflow-hidden static">
+      <div className="flex h-full">
         <TagFilterProvider>
           <SideBar />
           <SearchProvider>
-            <div className="flex flex-col flex-1">
+            <div className="flex flex-col flex-1 h-full overflow-hidden">
               <AllNotesHeader />
-              <div className="flex flex-1">
+              <div className="flex flex-1 min-h-0">
                 <NotesList>
                   <NotesListClient
                     initialNotes={notes}
