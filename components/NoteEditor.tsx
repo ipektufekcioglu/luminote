@@ -208,7 +208,7 @@ export default function NoteEditor({ initialNote, mode }: NoteEditorProps) {
               placeholder="Enter a title..."
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="truncate text-neutral-950 overflow-hidden font-bold text-3xl font-albert pt-2 px-2 h-12 md:text-4xl"
+              className="truncate text-neutral-950 overflow-hidden font-bold text-3xl font-albert pt-2 px-2 h-12 md:text-4xl w-full max-w-full"
             />
             <div className="flex gap-2 px-2 shrink-0 whitespace-nowrap sm:justify-end">
               <div className="flex gap-1 text-sm text-neutral-600 items-center w-full  md:text-lg">

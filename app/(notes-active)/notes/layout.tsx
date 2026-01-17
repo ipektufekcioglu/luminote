@@ -49,7 +49,7 @@ export default async function NotesLayout({
   }
 
   return (
-    <div className="static overflow-hidden">
+    <div className="static">
       <div className="flex">
         <TagFilterProvider>
           <SideBar />

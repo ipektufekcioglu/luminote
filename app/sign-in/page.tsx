@@ -6,7 +6,8 @@ import GoogleImg from "@/public/google.png";
 import EyeImg from "@/public/show.png";
 import Link from "next/link";
 import { useActionState } from "react";
-import loginAction from "@/app/sign-in/actions";
+import loginAction, { googleLoginAction } from "@/app/sign-in/actions";
+import { createClient } from "@/auth/server";
 
 export default function Home() {
   const initialState = { success: false, message: "" };
@@ -14,6 +15,10 @@ export default function Home() {
     loginAction,
     initialState
   );
+
+  const handleGoogleLogin = async () => {
+    await googleLoginAction();
+  };
 
   return (
     <div className="flex min-h-screen justify-center items-center px-4">
@@ -59,14 +64,20 @@ export default function Home() {
               className="w-4 absolute right-3 top-3"
             />
           </div>
-          <button disabled={isPending} className="bg-fuchsia-500/75 text-white py-2 text-sm rounded-lg cursor-pointer">
+          <button
+            disabled={isPending}
+            className="bg-fuchsia-500/75 text-white py-2 text-sm rounded-lg cursor-pointer"
+          >
             Login
           </button>
         </form>
         <p className="font-albert text-sm text-center font-light py-4 border-t border-neutral-200">
           Or log in with:
         </p>
-        <button className="text-neutral-950 font-inter py-2 text-sm rounded-lg border border-neutral-200 flex justify-center items-center gap-2 font-medium cursor-pointer">
+        <button
+          onClick={handleGoogleLogin}
+          className="text-neutral-950 font-inter py-2 text-sm rounded-lg border border-neutral-200 flex justify-center items-center gap-2 font-medium cursor-pointer"
+        >
           <Image src={GoogleImg} alt="google logo" />
           Google
         </button>
