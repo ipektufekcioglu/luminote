@@ -2,23 +2,17 @@
 import React, { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-
-import Image from "next/image";
-import BackArrow from "@/public/back-arrow.png";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoArchive } from "react-icons/io5";
 import { FaRegClock } from "react-icons/fa";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { FaTag } from "react-icons/fa6";
-import TagIcon from "@/public/tag-icon.png";
-import ClockIcon from "@/public/clock-icon.png";
 import TagSelector from "./TagSelector";
 import AddTag from "./AddTag";
 import SelectedTag from "./SelectedTag";
 import type { NoteEditorProps, Tag } from "@/app/types/index";
 import createSupabaseBrowserClient from "@/lib/supabaseBrowser";
-import { create } from "domain";
 
 export default function NoteEditor({ initialNote, mode }: NoteEditorProps) {
   const supabase = useMemo(() => createSupabaseBrowserClient(), []);
@@ -46,7 +40,6 @@ export default function NoteEditor({ initialNote, mode }: NoteEditorProps) {
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    console.log("hey:", user);
 
     if (mode === "create") {
       const { data: note, error: noteError } = await supabase
