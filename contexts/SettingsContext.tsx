@@ -23,27 +23,46 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     colorTheme: "light",
   });
   const supabase = useMemo(() => createSupabaseBrowserClient(), []);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    async () => {
-      const { data: auth } = await supabase.auth.getUser();
-      const user = auth.user;
-      if (!user) {
-        return;
+    const fetchSettings = async () => {
+      try {
+        const { data: auth } = await supabase.auth.getUser();
+        const user = auth.user;
+        if (!user) {
+          setIsLoading(false);
+          return;
+        }
+        const { data, error } = await supabase
+          .from("settings")
+          .select("font_theme, color_theme")
+          .eq("user_id", user.id)
+          .single();
+        if (!error && data) {
+          setSettings({
+            fontTheme: data.font_theme,
+            colorTheme: data.color_theme,
+          });
+        }
+      } catch (err) {
+        console.error("Unexpected error fetching settings", err);
       }
-      const { data, error } = await supabase
-        .from("settings")
-        .select("font_theme, color_theme")
-        .eq("user_id", user.id)
-        .single();
-      if (!error && data) {
-        setSettings({
-          fontTheme: data.font_theme,
-          colorTheme: data.color_theme,
-        });
+      {
+        setIsLoading(false);
       }
     };
-  }, []);
+    fetchSettings();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        fetchSettings();
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [supabase]);
 
   useEffect(() => {
     const root = document.documentElement;

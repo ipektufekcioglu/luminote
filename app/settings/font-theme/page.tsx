@@ -29,9 +29,15 @@ export default function FontThemePage() {
 
       const { error } = await supabase
         .from("settings")
-        .update({ font_theme: fontTheme })
-        .eq("user_id", user.id)
-        .single();
+        .upsert(
+          {
+            user_id: user.id,
+            font_theme: fontTheme,
+            color_theme: settings.colorTheme,
+          },
+          { onConflict: "user_id" },
+        )
+        .eq("user_id", user.id);
 
       if (error) {
         toast.error("Failed to save font theme");
@@ -50,6 +56,7 @@ export default function FontThemePage() {
       <div>
         <h1 className="text-2xl">Font Theme</h1>
         <p>Choose your font theme:</p>
+        <p>{settings.fontTheme}</p>
       </div>
       <div
         className={`flex justify-between items-center border rounded-lg px-2 py-2 ${settings.fontTheme === "sans" ? "bg-gray-100" : "bg-white"} cursor-pointer`}
@@ -66,7 +73,7 @@ export default function FontThemePage() {
           id="sans"
           value="sans"
           name="font"
-          defaultChecked
+          checked={settings.fontTheme === "sans"}
           className="w-6 h-6"
           onChange={() => handleChange("sans")}
         />
@@ -86,6 +93,7 @@ export default function FontThemePage() {
           id="serif"
           value="serif"
           name="font"
+          checked={settings.fontTheme === "serif"}
           className="w-6 h-6"
           onChange={() => handleChange("serif")}
         />
@@ -105,6 +113,7 @@ export default function FontThemePage() {
           id="mono"
           value="mono"
           name="font"
+          checked={settings.fontTheme === "mono"}
           className="w-6 h-6"
           onChange={() => handleChange("mono")}
         />
