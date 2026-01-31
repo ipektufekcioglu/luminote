@@ -40,15 +40,20 @@ export default function SettingsNav() {
           <IoIosArrowForward />
         </button>
       </Link>
-      <button className="flex items-center justify-between w-full max-w-md lg:max-w-2xl border-b px-4 py-4">
-        <div
-          className={`flex items-center gap-2 ${path === "/settings/change-password" ? "text-[#CE3E97]" : ""}`}
-        >
-          <RiLockPasswordLine />
-          Change Password
-        </div>
-        <IoIosArrowForward />
-      </button>
+      <Link
+        href={"/settings/change-password"}
+        className="w-full max-w-md lg:max-w-xl border-b px-4 py-4"
+      >
+        <button className="flex items-center justify-between w-full max-w-md lg:max-w-2xl ">
+          <div
+            className={`flex items-center gap-2 ${path === "/settings/change-password" ? "text-[#CE3E97]" : ""}`}
+          >
+            <RiLockPasswordLine />
+            Change Password
+          </div>
+          <IoIosArrowForward />
+        </button>
+      </Link>
       <button className="flex items-center justify-between w-full max-w-md lg:max-w-2xl border-b px-4 py-4">
         <div className="flex items-center gap-2">
           <TbLogout />
