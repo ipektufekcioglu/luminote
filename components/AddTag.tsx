@@ -40,7 +40,7 @@ export default function AddTag({ onChange, handleAddNew }: AddTagProps) {
         <div className="fixed inset-0 z-50 flex flex-col border px-2 min-w-32 justify-center items-center bg-black/30">
           <div className="w-[520px] max-w-[92-vw] bg-white rounded-3xl p-6 shadow-xl">
             <div className="relative flex items-center justify-center mb-5">
-              <h1 className="text-bold text-xl">Create New Tag</h1>
+              <h1 className="text-bold text-xl text-popover">Create New Tag</h1>
               <button
                 onClick={handleClose}
                 className="absolute right-0 text-bold text-xl cursor-pointer rounded-full px-3 py-1 hover:bg-gray-100"
@@ -48,14 +48,14 @@ export default function AddTag({ onChange, handleAddNew }: AddTagProps) {
                 <IoClose />
               </button>
             </div>
-            <div className="rounded-2xl border bg-gray-50 p-4">
+            <div className="rounded-2xl border bg-card p-4">
               <div className="flex items-center gap-3">
                 <input
                   type="text"
                   name="name"
                   value={inputTag}
                   placeholder="Tag name..."
-                  className="h-10 w-full border rounded-xl bg-white px-4 outline-none focus:ring-2 focus:ring-[#CE3E97]"
+                  className="h-10 w-full text-popover border rounded-xl bg-white px-4 outline-none focus:ring-2 focus:ring-[#CE3E97]"
                   onChange={handleInputChange}
                 />
                 <button

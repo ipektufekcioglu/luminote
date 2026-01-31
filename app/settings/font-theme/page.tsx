@@ -52,14 +52,13 @@ export default function FontThemePage() {
   };
 
   return (
-    <div className="py-4 px-4 flex-1 overflow-hidden flex flex-col mx-auto max-w-md max-h-screen gap-4">
-      <div>
+    <div className="py-4 px-4 flex-1 overflow-hidden flex flex-col mx-auto max-w-md max-h-screen gap-4 text-popover">
+      <div className="text-foreground">
         <h1 className="text-2xl">Font Theme</h1>
         <p>Choose your font theme:</p>
-        <p>{settings.fontTheme}</p>
       </div>
       <div
-        className={`flex justify-between items-center border rounded-lg px-2 py-2 ${settings.fontTheme === "sans" ? "bg-gray-100" : "bg-white"} cursor-pointer`}
+        className={`flex justify-between items-center border rounded-lg px-2 py-2 ${settings.fontTheme === "sans" ? "bg-card" : "bg-white"} cursor-pointer`}
       >
         <div className="flex items-center gap-4">
           <RiFontSans className="w-6 h-6" />

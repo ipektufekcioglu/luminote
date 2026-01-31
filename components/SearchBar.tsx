@@ -20,7 +20,7 @@ export default function SearchBar() {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col text-secondary">
       <div className="relative ">
         <IoSearchOutline className="w-4 absolute top-3 left-1" />
 
@@ -31,7 +31,7 @@ export default function SearchBar() {
         />
       </div>
       {searchText ? (
-        <p className="block text-sm text-neutral-700 mt-2 lg:hidden">
+        <p className="block text-sm text-secondary mt-2 lg:hidden">
           All notes matching "{searchText}" are displayed below.
         </p>
       ) : (

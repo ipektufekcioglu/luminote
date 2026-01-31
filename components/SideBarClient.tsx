@@ -22,7 +22,7 @@ export default function SideBarClient({ initialTagNames }: SideBarClientProps) {
             const newTag = payload.new as Tag;
             setTags((prev) => [...prev, newTag]);
           }
-        }
+        },
       )
       .subscribe();
 
@@ -47,7 +47,7 @@ export default function SideBarClient({ initialTagNames }: SideBarClientProps) {
           onClick={() => handleClick(t.name)}
           key={t.name}
           className={`flex gap-2 items-center cursor-pointer ${
-            filterTag === t.name ? "text-[#CE3E97]" : "text-neutral-700"
+            filterTag === t.name ? "text-[#CE3E97]" : "text-secondary"
           }`}
         >
           <FaTag />

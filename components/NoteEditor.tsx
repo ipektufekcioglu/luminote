@@ -173,7 +173,7 @@ export default function NoteEditor({ initialNote, mode }: NoteEditorProps) {
   };
 
   return (
-    <div className="py-4 px-4 flex-1 overflow-hidden flex flex-col max-h-screen">
+    <div className="py-4 px-4 flex-1 overflow-hidden flex flex-col max-h-screen bg-background">
       <form onSubmit={handleSave} className="static backdrop-blur-sm">
         <div className="flex justify-between items-center border-b border-neutral-200 pb-4 px-2 text-neutral-600 lg:hidden">
           <Link href="/notes">
@@ -196,19 +196,19 @@ export default function NoteEditor({ initialNote, mode }: NoteEditorProps) {
           </div>
         </div>
         <div className="mt-2 flex justify-between mb-4 items-center lg:mt-2">
-          <div className="flex justify-between items-center w-full">
+          <div className="flex justify-between items-center w-full ">
             <textarea
               placeholder="Enter a title..."
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="truncate text-neutral-950 overflow-hidden font-bold text-3xl font-albert pt-2 px-2 h-12 md:text-4xl w-full max-w-full"
+              className="truncate overflow-hidden text-primary font-bold text-3xl font-albert pt-2 px-2 h-12 md:text-4xl w-full max-w-full"
             />
             <div className="flex gap-2 px-2 shrink-0 whitespace-nowrap sm:justify-end">
-              <div className="flex gap-1 text-sm text-neutral-600 items-center w-full  md:text-lg">
+              <div className="flex gap-1 text-sm text-accent-foreground items-center w-full  md:text-lg">
                 <FaRegClock />
                 <span className="hidden xs:inline">Last edited:</span>
               </div>
-              <p className="w-full text-sm text-neutral-600  md:text-lg">
+              <p className="w-full text-sm text-accent-foreground  md:text-lg">
                 {updatedAt
                   ? new Date(updatedAt).toLocaleDateString()
                   : "Not yet saved"}

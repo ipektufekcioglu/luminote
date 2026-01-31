@@ -1,10 +1,10 @@
 import { ThemeProvider } from "@/app/providers/ThemeProvider";
 import "./globals.css";
 import type { Metadata } from "next";
-import Header from "@/components/Header";
 import { Toaster } from "@/components/ui/sonner";
 import MobileHeader from "@/components/MobileHeader";
 import { SettingsProvider } from "@/contexts/SettingsContext";
+import { ThemeSyncComponent } from "@/components/ThemeSyncComponent";
 
 export const metadata: Metadata = {
   title: "LumiNote",
@@ -27,14 +27,15 @@ export default function RootLayout({
           rel="stylesheet"
         ></link>
       </head>
-      <SettingsProvider>
-        <body>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SettingsProvider>
+            <ThemeSyncComponent />
             <div>
               <MobileHeader />
               <main className="min-h-screen bg-white bg-opacity-30">
@@ -42,9 +43,9 @@ export default function RootLayout({
               </main>
               <Toaster />
             </div>
-          </ThemeProvider>
-        </body>
-      </SettingsProvider>
+          </SettingsProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

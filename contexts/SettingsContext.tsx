@@ -64,28 +64,15 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     return () => subscription.unsubscribe();
   }, [supabase]);
 
+  // Handle font theme changes
   useEffect(() => {
     const root = document.documentElement;
     root.classList.remove("font-sans", "font-serif", "font-mono");
     root.classList.add(`font-${settings.fontTheme}`);
-    console.log(root.classList);
   }, [settings.fontTheme]);
 
-  useEffect(() => {
-    const root = document.documentElement;
-    if (settings.colorTheme === "dark") {
-      root.classList.add("dark");
-    } else if (settings.colorTheme === "light") {
-      root.classList.remove("dark");
-    } else if (settings.colorTheme === "system") {
-      const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      if (isDark) {
-        root.classList.add("dark");
-      } else {
-        root.classList.remove("dark");
-      }
-    }
-  }, [settings.colorTheme]);
+  // NOTE: Color theme is handled by next-themes via useThemeSync
+  // Do NOT manually add/remove dark class here to avoid conflicts
 
   async function setFontTheme(v: FontTheme) {
     setSettings((s) => ({ ...s, fontTheme: v }));
@@ -115,6 +102,7 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     () => ({ settings, setSettings, setFontTheme, setColorTheme }),
     [settings],
   );
+
   return (
     <SettingsContext.Provider value={value}>
       {children}

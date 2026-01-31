@@ -12,7 +12,7 @@ export default function SideBarTopNav() {
       <Link href={"/notes"}>
         <div
           className={`flex items-center gap-1 px-2 cursor-pointer ${
-            !isArchived ? "text-[#CE3E97]" : "text-neutral-700"
+            !isArchived ? "text-[#CE3E97]" : "text-secondary"
           }`}
         >
           <IoIosHome />
@@ -22,7 +22,7 @@ export default function SideBarTopNav() {
       <Link href={"/notes/archived"}>
         <div
           className={`flex items-center gap-1 border-b border-dark-pink px-2 pb-4 cursor-pointer ${
-            isArchived ? "text-[#CE3E97]" : "text-neutral-700"
+            isArchived ? "text-[#CE3E97]" : "text-secondary"
           }`}
         >
           <IoArchive />

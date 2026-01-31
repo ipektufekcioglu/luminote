@@ -9,7 +9,7 @@ export default function SettingsLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <div className="h-screen overflow-hidden static">
+    <div className="h-screen overflow-hidden static bg-background">
       <div className="flex h-full">
         <TagFilterProvider>
           <SideBar />

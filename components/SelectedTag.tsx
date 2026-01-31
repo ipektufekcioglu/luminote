@@ -7,7 +7,7 @@ export default function SelectedTag({
 }: SelectedTagProps) {
   return (
     <span
-      className="h-7 inline-flex items-center gap-2 border rounded-md px-2 py-1 bg-[#fff0f0] flex items-center gap-2"
+      className="h-7 inline-flex items-center gap-2 border rounded-md px-2 py-1 bg-card text-popover flex items-center gap-2"
       key={tagName}
     >
       {tagName}

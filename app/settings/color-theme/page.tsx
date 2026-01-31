@@ -3,50 +3,63 @@
 import { LuSun } from "react-icons/lu";
 import { FaRegMoon } from "react-icons/fa";
 import { TbSunMoon } from "react-icons/tb";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useSettings } from "@/contexts/SettingsContext";
-import { supabase } from "@/lib/supabaseClient";
+import createSupabaseBrowserClient from "@/lib/supabaseBrowser";
 import { toast } from "sonner";
+import type { ColorTheme } from "@/app/types";
 
 export default function ColorThemePage() {
-  const [theme, setTheme] = useState<"light" | "dark" | "system">("light");
   const { settings, setSettings } = useSettings();
+  const supabase = useMemo(() => createSupabaseBrowserClient(), []);
 
-  const handleChange = async (colorTheme) => {
+  const handleChange = async (colorTheme: ColorTheme) => {
     try {
       setSettings((s) => ({ ...s, colorTheme }));
 
-      const { data: auth } = await supabase.auth.getUser();
-      const user = auth.user;
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      console.log("user", user);
 
       if (!user) {
         toast.error("You must be logged in to save settings");
+        return;
       }
 
       const { error } = await supabase
         .from("settings")
-        .update({ colorTheme: colorTheme })
+        .upsert(
+          {
+            user_id: user.id,
+            font_theme: settings.fontTheme,
+            color_theme: colorTheme,
+          },
+          { onConflict: "user_id" },
+        )
         .eq("user_id", user.id);
+
       if (error) {
-        toast.error("Failed to save color theme");
+        toast.error("Failed to save font theme");
         console.error(error);
       } else {
-        toast.success("Color theme updated!");
+        toast.success("Font theme updated!");
       }
     } catch (error) {
-      toast.error("an error occured");
-      console.error("An error occured");
+      toast.error("An error occcured");
+      console.error(error);
     }
   };
 
   return (
-    <div className="py-4 px-4 flex-1 overflow-hidden flex flex-col mx-auto max-w-md max-h-screen gap-4">
-      <div>
+    <div className="py-4 px-4 flex-1 overflow-hidden flex flex-col mx-auto max-w-md max-h-screen gap-4 text-popover">
+      <div className="text-foreground">
         <h1 className="text-2xl">Color Theme</h1>
         <p>Choose your color theme:</p>
       </div>
       <div
-        className={`flex justify-between items-center border rounded-lg px-2 py-2 ${theme === "light" ? "bg-gray-100" : "bg-white"} cursor-pointer`}
+        className={`flex justify-between items-center border rounded-lg px-2 py-2 ${settings.colorTheme === "light" ? "bg-card" : "bg-white"} cursor-pointer`}
       >
         <div className="flex items-center gap-4">
           <LuSun className="w-6 h-6" />
@@ -60,13 +73,13 @@ export default function ColorThemePage() {
           id="light"
           value="light"
           name="theme"
-          defaultChecked
+          checked={settings.colorTheme == "light"}
           className="w-6 h-6"
           onChange={() => handleChange("light")}
         />
       </div>
       <div
-        className={`flex justify-between items-center border rounded-lg px-2 py-2 ${theme === "dark" ? "bg-gray-100" : "bg-white"} cursor-pointer`}
+        className={`flex justify-between items-center border rounded-lg px-2 py-2 ${settings.colorTheme === "dark" ? "bg-card" : "bg-white"} cursor-pointer`}
       >
         <div className="flex items-center gap-4">
           <FaRegMoon className="w-6 h-6" />
@@ -80,12 +93,13 @@ export default function ColorThemePage() {
           id="dark"
           value="dark"
           name="theme"
+          checked={settings.colorTheme == "dark"}
           className="w-6 h-6"
           onChange={() => handleChange("dark")}
         />
       </div>
       <div
-        className={`flex justify-between items-center border rounded-lg px-2 py-2 ${theme === "system" ? "bg-gray-100" : "bg-white"} cursor-pointer`}
+        className={`flex justify-between items-center border rounded-lg px-2 py-2 ${settings.colorTheme === "system" ? "bg-gray-100" : "bg-white"} cursor-pointer`}
       >
         <div className="flex items-center gap-4">
           <TbSunMoon className="w-6 h-6" />
@@ -99,6 +113,7 @@ export default function ColorThemePage() {
           id="system"
           value="system"
           name="theme"
+          checked={settings.colorTheme == "system"}
           className="w-6 h-6"
           onChange={() => handleChange("system")}
         />

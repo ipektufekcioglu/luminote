@@ -1,6 +1,5 @@
 import Image from "next/image";
 import FeatherImg from "@/public/feather.png";
-import DarkModeToggle from "@/components/DarkModeToggle";
 import LogOutButton from "./LogoutButton";
 import Link from "next/link";
 import { getUser } from "@/auth/server";
@@ -8,10 +7,10 @@ import { getUser } from "@/auth/server";
 export default async function Header() {
   const user = await getUser();
   return (
-    <header className="min-h-22 bg-[#FFF3F8] flex items-center border-2 border-[#F2CFE0] justify-between px-4">
+    <header className="min-h-22 bg-chart-1 flex items-center border-2 border-border justify-between px-4">
       <div className="flex">
         <Image src={FeatherImg} alt="feather logo" className="w-8" />
-        <h1 className="font-pacifico text-2xl text-[#1F2937]">LumiNote</h1>
+        <h1 className="font-pacifico text-2xl text-char-2">LumiNote</h1>
       </div>
       <div className="flex gap-4 ">
         {user ? (

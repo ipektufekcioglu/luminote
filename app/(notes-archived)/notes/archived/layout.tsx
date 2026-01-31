@@ -49,7 +49,7 @@ export default async function ArchivedNotesLayout({
   }
 
   return (
-    <div className="static">
+    <div className="static bg-background">
       <div className="flex">
         <TagFilterProvider>
           <SideBar />

@@ -12,21 +12,17 @@ export default function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <div className="fixed bottom-0 inset-x-0 overflow-hidden min-h-22 grid grid-cols-5 absolute gap-4 bottom-0 px-2 py-2 bg-[#fff0f0] border-2 border-dark-pink w-full items-center lg:hidden">
+    <div className="fixed bottom-0 inset-x-0 overflow-hidden min-h-22 grid grid-cols-5 absolute gap-4 bottom-0 px-2 py-2 bg-chart-1 border-2 border-border w-full items-center lg:hidden">
       <Link href={"/notes"}>
         <div className="flex flex-col justify-center items-center">
           <IoIosHome
             className={`${
-              pathname.endsWith("/notes")
-                ? "text-[#CE3E97]"
-                : "text-neutral-600"
+              pathname.endsWith("/notes") ? "text-[#CE3E97]" : "text-secondary"
             } w-6 h-6`}
           />
           <p
             className={`${
-              pathname.endsWith("/notes")
-                ? "text-[#CE3E97]"
-                : "text-neutral-600"
+              pathname.endsWith("/notes") ? "text-[#CE3E97]" : "text-secondary"
             }`}
           >
             Home
@@ -37,16 +33,12 @@ export default function BottomNav() {
         <div className="flex flex-col justify-center items-center">
           <IoSearchSharp
             className={`${
-              pathname.endsWith("/search")
-                ? "text-[#CE3E97]"
-                : "text-neutral-600"
+              pathname.endsWith("/search") ? "text-[#CE3E97]" : "text-secondary"
             } w-6 h-6`}
           />
           <p
             className={`${
-              pathname.endsWith("/search")
-                ? "text-[#CE3E97]"
-                : "text-neutral-600"
+              pathname.endsWith("/search") ? "text-[#CE3E97]" : "text-secondary"
             }`}
           >
             Search
@@ -59,14 +51,14 @@ export default function BottomNav() {
             className={`${
               pathname.endsWith("/archived")
                 ? "text-[#CE3E97]"
-                : "text-neutral-600"
+                : "text-secondary"
             } w-6 h-6`}
           />
           <p
             className={`${
               pathname.endsWith("/archived")
                 ? "text-[#CE3E97]"
-                : "text-neutral-600"
+                : "text-secondary"
             }`}
           >
             Archived
@@ -77,12 +69,12 @@ export default function BottomNav() {
         <div className="flex flex-col justify-center items-center">
           <FaTag
             className={`${
-              pathname.endsWith("/tags") ? "text-[#CE3E97]" : "text-neutral-600"
+              pathname.endsWith("/tags") ? "text-[#CE3E97]" : "text-secondary"
             } w-6 h-6`}
           />
           <p
             className={`${
-              pathname.endsWith("/tags") ? "text-[#CE3E97]" : "text-neutral-600"
+              pathname.endsWith("/tags") ? "text-[#CE3E97]" : "text-secondary"
             }`}
           >
             Tags
@@ -95,14 +87,14 @@ export default function BottomNav() {
             className={`${
               pathname.endsWith("/settings")
                 ? "text-[#CE3E97]"
-                : "text-neutral-600"
+                : "text-secondary"
             } w-6 h-6`}
           />
           <p
             className={`${
               pathname.endsWith("/settings")
                 ? "text-[#CE3E97]"
-                : "text-neutral-600"
+                : "text-secondary"
             }`}
           >
             Settings
