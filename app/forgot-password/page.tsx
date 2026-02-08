@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import FeatherImg from "@/public/feather.png";
 import { useState } from "react";
