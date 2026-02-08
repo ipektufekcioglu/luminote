@@ -42,3 +42,5 @@ next-env.d.ts
 
 # backups
 /app_backup
+node_modules_old/
+**/node_modules_old/
