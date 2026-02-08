@@ -6,10 +6,25 @@ import { TbLogout } from "react-icons/tb";
 import { IoIosArrowForward } from "react-icons/io";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { toast } from "sonner";
+import { redirect } from "next/navigation";
+import { logOutAction } from "@/app/sign-in/actions";
+import { useState } from "react";
 
 export default function SettingsNav() {
   const path = usePathname();
   console.log(path);
+  const [loading, setLoading] = useState(false);
+
+  const handleLogOut = async () => {
+    const { success, message } = await logOutAction();
+
+    if (success) {
+      toast("Successfully Logged Out");
+      redirect("/");
+    }
+  };
+
   return (
     <div className="w-full h-full flex flex-col items-center lg:w-72 text-secondary flex-shrink-0 px-8 py-4 lg:border-b-2 lg:border-r-2 bg-background border-border overflow-hiden">
       <Link
@@ -55,9 +70,15 @@ export default function SettingsNav() {
         </button>
       </Link>
       <button className="flex items-center justify-between w-full max-w-md lg:max-w-2xl border-b px-4 py-4">
-        <div className="flex items-center gap-2">
-          <TbLogout />
-          Logout
+        <div className="flex items-center gap-2" onClick={handleLogOut}>
+          {loading ? (
+            <div className="border-2 border-white border-t-fuchsia-400 w-4 h-4 rounded-full animate-spin"></div>
+          ) : (
+            <>
+              <TbLogout />
+              Logout
+            </>
+          )}
         </div>
         <IoIosArrowForward />
       </button>

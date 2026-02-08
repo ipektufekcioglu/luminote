@@ -5,19 +5,30 @@ import FeatherImg from "@/public/feather.png";
 import GoogleImg from "@/public/google.png";
 import EyeImg from "@/public/show.png";
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import loginAction, { googleLoginAction } from "@/app/sign-in/actions";
-import { createClient } from "@/auth/server";
+import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 export default function Home() {
   const initialState = { success: false, message: "" };
   const [state, formAction, isPending] = useActionState(
     loginAction,
-    initialState
+    initialState,
   );
+  const router = useRouter();
+  const [isShow, setIsShow] = useState(false);
 
   const handleGoogleLogin = async () => {
     await googleLoginAction();
+  };
+
+  const handleClick = () => {
+    redirect("/forgot-password");
+  };
+
+  const handlePassVisibility = () => {
+    setIsShow((prev) => !prev);
   };
 
   return (
@@ -49,19 +60,26 @@ export default function Home() {
           />
           <div className="flex justify-between">
             <label className="text-sm">Password</label>
-            <p className="text-xs text-neutral-600 underline">Forgot</p>
+            <button
+              onClick={handleClick}
+              type="button"
+              className="text-xs text-neutral-600 underline"
+            >
+              Forgot
+            </button>
           </div>
           <div className="relative">
             <input
               placeholder="******"
               name="password"
-              type="password"
+              type={isShow ? "text" : "password"}
               className="w-full border border-neutral-200 rounded-lg px-2 py-2"
             />
             <Image
               src={EyeImg}
               alt="eye symbol"
               className="w-4 absolute right-3 top-3"
+              onClick={handlePassVisibility}
             />
           </div>
           <button
